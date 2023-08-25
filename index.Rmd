@@ -34,12 +34,9 @@ class: middle
 <br><br>
 3. Statistical inference - 5 minutes
 <br><br>
-5. Hypothesis testing - 20 minutes
+5. Brief hypothesis testing (will get more with epi stuff) - 10 minutes
 <br><br>
-6. Brief Probability - 17 minutes
-<br><br>
-7. Important Caveats - 5 minutes
-
+6. Probability - 22 minutes
 ---
 
 class: middle, center
@@ -50,7 +47,7 @@ class: middle, center
 
 class: middle
 
-# There are some important random terms
+# There are some important terms
 
 --
 
@@ -73,6 +70,23 @@ class: middle
 - **Effectiveness**
   - Performance of treatment under real world circumstances
 
+---
+
+class: middle
+
+# Regarding generalizability
+
+**The boards wants you to know these terms**
+
+- **Internal Validity**
+  - Is the extent to which the study shows that the indendepent variable is causing the depdent variable
+  - _For instance, if a drug trial finds that a new medication reduces symptoms of a disease, internal validity would address whether this reduction is truly due to the medication and not some other factor like participants' expectations, the placebo effect, or other treatments they might be receiving._
+
+--
+- **External Validity**
+  - Is the extent to which the study can be generalized to pts not in the study population
+  - Typically an intuitive judgment call unless external data exists for analysis
+  
 ---
 
 class: middle, center
@@ -406,12 +420,14 @@ class: middle
 
 <br>
 --
+
 - For boards, probably safe to assume null is always rejected with $p < 0.05$.
 - For ratios (e.g. Relative Risk, Odds Ratio), a 95% CI __not__ overlapping 1 is significant.
 - For two sample tests, it is less straightforward how the CI relates to the p-value so don't worry about it.
 
 <br>
 --
+
 - Once $H_0$ is rejected, we accept the alternative hypothesis $H_A$.
 
 ---
@@ -439,15 +455,11 @@ class: middle
 
 ---
 
-class: middle, center
+class: middle
 
 # Common Clinical/Epi Metrics 
 
----
-
-class: middle
-
-# You really need to know these
+**Calculating NNT was on my boards**
 
 1. Odds Ratio (OR)
 2. Risk Ratio (RR)
@@ -650,72 +662,333 @@ $NNH = \frac{1}{0.1} =$ **`r NNT`**
 
 ---
 
-class: middle
+class: middle, center
 
-# Caveats - there are some subtle points
- 
----
-
-class: middle
-
-# Things to Know and Caveats
-
-- When using a ratio or some sort, safely assume statistical significant when CI does not overlap 1
-<br><br>
-- You can only calculate risk ratios from random population samples (not case-controls)
-<br><br>
-- Subgroup analysis seems so wonderful for real clinical medicine - **it is not; be very wary** 
+# Brief probability
 
 ---
 
 class: middle
 
-**Some may ask:** Why would we ever do a case-control trial if we can't calculate a risk-ratio (and thereby can't calculate a NNT)?
+**The goal here is not that you should memorize how to calculate these. It is that you should be familiar with them, know they they are relatively accessible even for non-statisticians, and be able to look up if needed.**
 
 ---
 
 class: middle, center
 
-## Here is a real disease prevalence
+# What are sensitivity and specificity?
+
+---
+
+class: middle, center
+
+# Tests are cutoffs on a continuous variable
   
-```{r hiv, out.width = '70%', fig.asp = 5/7, dpi = 300}
+```{r, fig.width = 12, fig.height = 7, message=FALSE, warning=FALSE, echo=FALSE}
 library(ggplot2)
-norm1 <- rnorm(318900, mean = 5, sd = 1.5)
-norm2 <- rnorm(1200, mean = 10, sd = 1.5)
-ggplot(data.frame(data = c(norm1, norm2), Groups = c(rep('No Disease', length(norm1)), rep('Disease', length(norm2)))), aes(x=data, fill=Groups)) + 
-  geom_histogram(alpha = 0.2, position="identity", binwidth = 0.1) + 
+norm1 <- rnorm(5000, mean = 4.25, sd = 1.5)
+norm2 <- rnorm(5000, mean = 7.75, sd = 1.5)
+ggplot(data.frame(data = c(norm1, norm2), Groups = c(rep('No Disease', length(norm1)), rep('Disease', length(norm2)))), aes(data, fill = Groups)) + 
+  geom_density(alpha=0.2) + 
+  geom_vline(xintercept = 6, linetype = 'solid', lwd = 1) +
   scale_fill_manual(values = c("No Disease" = "blue", "Disease" = "red")) +
-  theme_bw(18) + 
-  theme(legend.position="topright") + 
-  labs(x="HIV Test", y="Number of Patients")
+  labs(x="Cancer Biomarker", y="Fraction of Patients") +
+  theme_bw() +
+  annotate("text", x = 1.5, y = 0.02, label = "True\nNegative", size=5, hjust = 0) +
+  annotate("text", x = 4.6, y = 0.02, label = "False\nNegative", size=5, hjust = 0) +
+  annotate("text", x = 6.35, y = 0.02, label = "False\nPositive", size=5, hjust = 0) +
+  annotate("text", x = 9.2, y = 0.02, label = "True\nPositive", size=5, hjust = 0)
 ```
 
-this is the real HIV prevalence... this is why prospective cohorts are hard and risk ratios are hard to get
+---
+
+class: middle, center
+
+# Sensitivity: 
+
+Efficiency of finding **TRUE POSITIVES TESTS** in All Real Positive Cases
+  
+```{r, fig.width = 12, fig.height = 7, message=FALSE, warning=FALSE, echo=FALSE}
+library(ggplot2)
+norm1 <- rnorm(5000, mean = 4.25, sd = 1.5)
+norm2 <- rnorm(5000, mean = 7.75, sd = 1.5)
+ggplot(data.frame(data = c(norm1, norm2), Groups = c(rep('No Disease', length(norm1)), rep('Disease', length(norm2)))), aes(data, fill = Groups)) + 
+  geom_density(alpha=0.2) + 
+  geom_vline(xintercept = 6, linetype = 'solid', lwd = 1) +
+  scale_fill_manual(values = c("No Disease" = "white", "Disease" = "red")) +
+  labs(x="Cancer Biomarker", y="Fraction of Patients") +
+  theme_bw() +
+  annotate("text", x = 1.5, y = 0.02, label = "True\nNegative", size=5, hjust = 0, color = '#dddddd') +
+  annotate("text", x = 4.6, y = 0.02, label = "False\nNegative", size=5, hjust = 0) +
+  annotate("text", x = 6.35, y = 0.02, label = "False\nPositive", size=5, hjust = 0, color = '#dddddd') +
+  annotate("text", x = 9.2, y = 0.02, label = "True\nPositive", size=5, hjust = 0)
+```
 
 ---
 
 class: middle, center
 
-# Multiple testing is a *real* problem
+# Specificity: 
+
+Efficiency of finding **TRUE NEGATIVES TESTS** in All Real Negative Cases
+
+```{r, fig.width = 12, fig.height = 7, message=FALSE, warning=FALSE, echo=FALSE}
+library(ggplot2)
+norm1 <- rnorm(5000, mean = 4.25, sd = 1.5)
+norm2 <- rnorm(5000, mean = 7.75, sd = 1.5)
+ggplot(data.frame(data = c(norm1, norm2), Groups = c(rep('No Disease', length(norm1)), rep('Disease', length(norm2)))), aes(data, fill = Groups)) + 
+  geom_density(alpha=0.2) + 
+  geom_vline(xintercept = 6, linetype = 'solid', lwd = 1) +
+  scale_fill_manual(values = c("No Disease" = "blue", "Disease" = "white")) +
+  labs(x="Cancer Biomarker", y="Fraction of Patients") +
+  theme_bw() + 
+  annotate("text", x = 1.5, y = 0.02, label = "True\nNegative", size=5, hjust = 0) +
+  annotate("text", x = 4.6, y = 0.02, label = "False\nNegative", size=5, hjust = 0, color = '#dddddd') +
+  annotate("text", x = 6.35, y = 0.02, label = "False\nPositive", size=5, hjust = 0) +
+  annotate("text", x = 9.2, y = 0.02, label = "True\nPositive", size=5, hjust = 0, color = '#dddddd')
+```
+
+---
+
+class: middle
+
+# PPV and NPV
 
 .pull-left[
-<img src="figs/statistical_tests.png" width="100%" />
+- __Positive Predictive Value__
+- Chance that person has the disease after a positive test result
+  - $PPV = \frac{TP}{TP + FP}$
 ]
 
 .pull-right[
-.left[
+- __Negative Predictive Value__
+- Chance that person does not have disease after a negative test result
+  - $NPV = \frac{TN}{TN + FN}$
+]
+
+- PPV and NPV depend on how prevalent the disease is in the population
+
+---
+
+class: middle
+
+# Sensitivity and Specificity
+
+--
+- __These are the defining characteristics of any clinical finding (e.g. history, physical, test, image)__.
+
+--
+- They do not depend on anything... they are intrinsic to the exam/test
+
+--
+- If someone quotes the positive or negative predictive value of a test, they are wrong.
+
+--
+- Therefore, if you do not know the sensitivity or specificity of a test, you are missing information
+- Without sensitivity and specificity, you cannot make a ROC curve
+
+--
+- Be skeptical of a paper, poster, or company presentation that does not include a ROC curve
+  
+.pull-left[
+- __Sensitivity__
+  - $Sensitivity = \frac{TruePositives}{AllRealPositives}$
+  - $AllRealPositives = TP + FN$
+]
+
+.pull-right[
+- __Specificity__
+  - $Specificity = \frac{TrueNegatives}{AllRealNegatives}$
+  - $AllRealNegatives = TN + FP$
+]
+
+---
+
+class: middle, center
+
+# PPV and NPV vary with probability
+
+Unlike Sens and Spec, PPV and NPV vary with pre-test probability
+
+```{r, fig.width = 12, fig.height = 7, message=FALSE, warning=FALSE, echo=FALSE}
+library(ggplot2)
+n = 1000
+prevalence <- seq(0, 1, by = 0.001)
+sensitivity <- 0.9
+specificity <- 0.9
+
+TP <- n * prevalence * sensitivity               # people testing correctly positive
+TN <- (n - (n * prevalence)) * specificity       # people testing correctly negative
+FP <- (n - (n * prevalence)) * (1 - specificity) # people who do not have disease but test positive
+FN <- n * prevalence * (1 - sensitivity)         # people who have disease but test negative
+PPV <- TP / (TP + FP)
+NPV <- TN / (TN + FN)
+    
+data <- data.frame(x = prevalence, y = PPV)
+ggplot(data, aes(x = x, y = y)) + 
+  geom_line() +
+  ylim(0, 1) + 
+  theme_bw() +
+  labs(x="Prevalence", y="Positive Predictive Value")
+```
+
+---
+
+class: middle, center
+
+# Predictive values versus test metrics
+
+```{r, fig.width = 12, fig.height = 7, message=FALSE, warning=FALSE, echo=FALSE}
+library(ggplot2)
+n = 1000
+prevalence <- seq(0, 1, by = 0.001)
+sensitivity <- 0.5
+specificity <- 0.9
+TP <- n * prevalence * sensitivity               # people testing correctly positive
+TN <- (n - (n * prevalence)) * specificity       # people testing correctly negative
+FP <- (n - (n * prevalence)) * (1 - specificity) # people who do not have disease but test positive
+FN <- n * prevalence * (1 - sensitivity)         # people who have disease but test negative
+PPV <- TP / (TP + FP)
+NPV <- TN / (TN + FN)
+data <- data.frame(x = prevalence, y = PPV)
+ggplot(data, aes(x = x, y = y)) + 
+  geom_line() +
+  ylim(0, 1) + 
+  theme_bw() +
+  labs(x="Prevalence", y="Positive Predictive Value") +
+  annotate('text', x = 0.5, y = 0.25, label = "50% Sensitive and 90% Specific", size = 10)
+```
+
+---
+
+class: middle, center
+
+# Predictive values versus test metrics
+
+```{r, fig.width = 12, fig.height = 7, message=FALSE, warning=FALSE, echo=FALSE}
+library(ggplot2)
+n = 1000
+prevalence <- seq(0, 1, by = 0.001)
+sensitivity <- 0.9
+specificity <- 0.5
+TP <- n * prevalence * sensitivity               # people testing correctly positive
+TN <- (n - (n * prevalence)) * specificity       # people testing correctly negative
+FP <- (n - (n * prevalence)) * (1 - specificity) # people who do not have disease but test positive
+FN <- n * prevalence * (1 - sensitivity)         # people who have disease but test negative
+PPV <- TP / (TP + FP)
+NPV <- TN / (TN + FN)
+data <- data.frame(x = prevalence, y = PPV)
+ggplot(data, aes(x = x, y = y)) + 
+  geom_line() +
+  ylim(0, 1) + 
+  theme_bw() +
+  labs(x="Prevalence", y="Positive Predictive Value") +
+  annotate('text', x = 0.5, y = 0.25, label = "90% Sensitive and 50% Specific", size = 10)
+```
+
+---
+
+class: middle, center
+
+# Predictive values versus test metrics
+PPV and NPV are post-test probabilities that are chained to the prevalence of disease in the population where the sensitivity and specificity were calculated
+
+---
+
+class: middle, center
+
+# Has anyone seen one of these?
+
+**These nomograms are silly and ridiculous, and shouldn't exist**
+
+<img src="figs/nomogram.jpeg" width="30%"/>
+
+---
+
+class: middle, center
+
+# Calculating post-test probability #1
+
+**If you have a contingency table or sensitivity/specificity these are easy to calculate**
+
+$S_e = \frac{a}{a+c}$<br>
+$S_p = \frac{d}{b+d}$
+
 <br>
-- This is from one of our journal clubs<br><br>
+--
 
-- Look how many hypothesis tests they ran!! <br><br>
+**You can use disease prevalence as a naive pre-test probability**
 
-- Every p-value is a test <br><br>
+**Think flu prevalence in the winter versus summer for a presenting toddler**
+---
 
-- Given a true null, how many tests would you expect to reject the null randomly?
-]
-]
+class: middle, center
 
-**this is subgroup testing and why it is better for hypothesis generation**
+# Calculating post-test probability #2
+
+**You can make likelihood ratios from sensitivity and specificity**
+
+$LR_+ = \frac{S_e}{(1-S_p)} = \frac{\frac{a}{a+c}}{\frac{b}{b+d}}$<br>
+$LR_- = \frac{(1-S_e)}{S_p} = \frac{\frac{c}{a+c}}{\frac{d}{b+d}}$
+
+---
+
+class: middle
+
+# Calculating post-test probability #3
+
+- Once you know if test was positive or negative you pick the LR you need 
+  - $LR_+$ for positive test 
+  - $LR_-$ for negative test
+
+1. **Convert pretest probability to pretest odds**
+  - $odds_{pretest} = \frac{prob_{pretest}}{1-prob_{pretest}}$
+  
+2. **Multiply odds by relevant likelihood ratio to get post test odds**
+  - $odds_{posttest} = odds_{pretest} * LR$
+  
+3. **Convert posttest odds back to probability**
+  - $prob_{posttest} = \frac{odds_{posttest}}{odds_{posttest}+1}$
+
+---
+
+class: middle
+
+# Calculating post-test probability #4
+
+**Here is a full example**
+
+--
+- Prevalence of HIV is ~1 in 300 in the US. So 0.333%
+
+--
+- Sensitivity of Gen-4 HIV test outside of window is 99.7% 
+- Specificity of Gen-4 HIV test outside of window is 99.8%
+
+--
+- Let's say someone tests positive - what is the probability they are really infected?
+
+1. Calculate $LR_+$ for positive test: $LR_+ = \frac{0.997}{1-0.998} = 498.5$
+
+--
+
+2. Convert pretest probability (prevalence) to pretest odds
+  - $odd_{pretest} = \frac{prob_{pretest}}{1-prob_{pretest}} = \frac{0.00333}{1-0.00333} = 0.00334$
+  - note pretty much the same as probability, which is always true for low prevalence/probability diseases
+  
+--
+
+3. Multiply pretest odds by LR to get posttest odds
+  - $odds_{posttest} = odds_{pretest} * LR_+ = 0.00334 * 498.5 = 1.66499$
+  
+--
+
+4. Convert posttest odds to posttest probability
+  - $prob_{posttest} = \frac{odds_{posttest}}{odds_{posttest}+1} = \frac{1.66499}{1.66499+1} = 0.6247$
+
+--
+
+**So probability of true infection out of window with positive 4th gen test is 63%**
 
 ---
 

@@ -38,12 +38,9 @@ class: middle
 &lt;br&gt;&lt;br&gt;
 3. Statistical inference - 5 minutes
 &lt;br&gt;&lt;br&gt;
-5. Hypothesis testing - 20 minutes
+5. Brief hypothesis testing (will get more with epi stuff) - 10 minutes
 &lt;br&gt;&lt;br&gt;
-6. Brief Probability - 17 minutes
-&lt;br&gt;&lt;br&gt;
-7. Important Caveats - 5 minutes
-
+6. Probability - 22 minutes
 ---
 
 class: middle, center
@@ -54,7 +51,7 @@ class: middle, center
 
 class: middle
 
-# There are some important random terms
+# There are some important terms
 
 --
 
@@ -77,6 +74,23 @@ class: middle
 - **Effectiveness**
   - Performance of treatment under real world circumstances
 
+---
+
+class: middle
+
+# Regarding generalizability
+
+**The boards wants you to know these terms**
+
+- **Internal Validity**
+  - Is the extent to which the study shows that the indendepent variable is causing the depdent variable
+  - _For instance, if a drug trial finds that a new medication reduces symptoms of a disease, internal validity would address whether this reduction is truly due to the medication and not some other factor like participants' expectations, the placebo effect, or other treatments they might be receiving._
+
+--
+- **External Validity**
+  - Is the extent to which the study can be generalized to pts not in the study population
+  - Typically an intuitive judgment call unless external data exists for analysis
+  
 ---
 
 class: middle, center
@@ -287,12 +301,14 @@ class: middle
 
 &lt;br&gt;
 --
+
 - For boards, probably safe to assume null is always rejected with `\(p &lt; 0.05\)`.
 - For ratios (e.g. Relative Risk, Odds Ratio), a 95% CI __not__ overlapping 1 is significant.
 - For two sample tests, it is less straightforward how the CI relates to the p-value so don't worry about it.
 
 &lt;br&gt;
 --
+
 - Once `\(H_0\)` is rejected, we accept the alternative hypothesis `\(H_A\)`.
 
 ---
@@ -320,15 +336,11 @@ class: middle
 
 ---
 
-class: middle, center
+class: middle
 
 # Common Clinical/Epi Metrics 
 
----
-
-class: middle
-
-# You really need to know these
+**Calculating NNT was on my boards**
 
 1. Odds Ratio (OR)
 2. Risk Ratio (RR)
@@ -477,62 +489,233 @@ class: middle, center
 
 ---
 
-class: middle
+class: middle, center
 
-# Caveats - there are some subtle points
- 
----
-
-class: middle
-
-# Things to Know and Caveats
-
-- When using a ratio or some sort, safely assume statistical significant when CI does not overlap 1
-&lt;br&gt;&lt;br&gt;
-- You can only calculate risk ratios from random population samples (not case-controls)
-&lt;br&gt;&lt;br&gt;
-- Subgroup analysis seems so wonderful for real clinical medicine - **it is not; be very wary** 
+# Brief probability
 
 ---
 
 class: middle
 
-**Some may ask:** Why would we ever do a case-control trial if we can't calculate a risk-ratio (and thereby can't calculate a NNT)?
+**The goal here is not that you should memorize how to calculate these. It is that you should be familiar with them, know they they are relatively accessible even for non-statisticians, and be able to look up if needed.**
 
 ---
 
 class: middle, center
 
-## Here is a real disease prevalence
+# What are sensitivity and specificity?
+
+---
+
+class: middle, center
+
+# Tests are cutoffs on a continuous variable
   
-&lt;img src="index_files/figure-html/hiv-1.png" width="70%" /&gt;
-
-this is the real HIV prevalence... this is why prospective cohorts are hard and risk ratios are hard to get
+![](index_files/figure-html/unnamed-chunk-16-1.png)&lt;!-- --&gt;
 
 ---
 
 class: middle, center
 
-# Multiple testing is a *real* problem
+# Sensitivity: 
+
+Efficiency of finding **TRUE POSITIVES TESTS** in All Real Positive Cases
+  
+![](index_files/figure-html/unnamed-chunk-17-1.png)&lt;!-- --&gt;
+
+---
+
+class: middle, center
+
+# Specificity: 
+
+Efficiency of finding **TRUE NEGATIVES TESTS** in All Real Negative Cases
+
+![](index_files/figure-html/unnamed-chunk-18-1.png)&lt;!-- --&gt;
+
+---
+
+class: middle
+
+# PPV and NPV
 
 .pull-left[
-&lt;img src="figs/statistical_tests.png" width="100%" /&gt;
+- __Positive Predictive Value__
+- Chance that person has the disease after a positive test result
+  - `\(PPV = \frac{TP}{TP + FP}\)`
 ]
 
 .pull-right[
-.left[
+- __Negative Predictive Value__
+- Chance that person does not have disease after a negative test result
+  - `\(NPV = \frac{TN}{TN + FN}\)`
+]
+
+- PPV and NPV depend on how prevalent the disease is in the population
+
+---
+
+class: middle
+
+# Sensitivity and Specificity
+
+--
+- __These are the defining characteristics of any clinical finding (e.g. history, physical, test, image)__.
+
+--
+- They do not depend on anything... they are intrinsic to the exam/test
+
+--
+- If someone quotes the positive or negative predictive value of a test, they are wrong.
+
+--
+- Therefore, if you do not know the sensitivity or specificity of a test, you are missing information
+- Without sensitivity and specificity, you cannot make a ROC curve
+
+--
+- Be skeptical of a paper, poster, or company presentation that does not include a ROC curve
+  
+.pull-left[
+- __Sensitivity__
+  - `\(Sensitivity = \frac{TruePositives}{AllRealPositives}\)`
+  - `\(AllRealPositives = TP + FN\)`
+]
+
+.pull-right[
+- __Specificity__
+  - `\(Specificity = \frac{TrueNegatives}{AllRealNegatives}\)`
+  - `\(AllRealNegatives = TN + FP\)`
+]
+
+---
+
+class: middle, center
+
+# PPV and NPV vary with probability
+
+Unlike Sens and Spec, PPV and NPV vary with pre-test probability
+
+![](index_files/figure-html/unnamed-chunk-19-1.png)&lt;!-- --&gt;
+
+---
+
+class: middle, center
+
+# Predictive values versus test metrics
+
+![](index_files/figure-html/unnamed-chunk-20-1.png)&lt;!-- --&gt;
+
+---
+
+class: middle, center
+
+# Predictive values versus test metrics
+
+![](index_files/figure-html/unnamed-chunk-21-1.png)&lt;!-- --&gt;
+
+---
+
+class: middle, center
+
+# Predictive values versus test metrics
+PPV and NPV are post-test probabilities that are chained to the prevalence of disease in the population where the sensitivity and specificity were calculated
+
+---
+
+class: middle, center
+
+# Has anyone seen one of these?
+
+**These nomograms are silly and ridiculous, and shouldn't exist**
+
+&lt;img src="figs/nomogram.jpeg" width="30%"/&gt;
+
+---
+
+class: middle, center
+
+# Calculating post-test probability #1
+
+**If you have a contingency table or sensitivity/specificity these are easy to calculate**
+
+`\(S_e = \frac{a}{a+c}\)`&lt;br&gt;
+`\(S_p = \frac{d}{b+d}\)`
+
 &lt;br&gt;
-- This is from one of our journal clubs&lt;br&gt;&lt;br&gt;
+--
 
-- Look how many hypothesis tests they ran!! &lt;br&gt;&lt;br&gt;
+**You can use disease prevalence as a naive pre-test probability**
 
-- Every p-value is a test &lt;br&gt;&lt;br&gt;
+**Think flu prevalence in the winter versus summer for a presenting toddler**
+---
 
-- Given a true null, how many tests would you expect to reject the null randomly?
-]
-]
+class: middle, center
 
-**this is subgroup testing and why it is better for hypothesis generation**
+# Calculating post-test probability #2
+
+**You can make likelihood ratios from sensitivity and specificity**
+
+`\(LR_+ = \frac{S_e}{(1-S_p)} = \frac{\frac{a}{a+c}}{\frac{b}{b+d}}\)`&lt;br&gt;
+`\(LR_- = \frac{(1-S_e)}{S_p} = \frac{\frac{c}{a+c}}{\frac{d}{b+d}}\)`
+
+---
+
+class: middle
+
+# Calculating post-test probability #3
+
+- Once you know if test was positive or negative you pick the LR you need 
+  - `\(LR_+\)` for positive test 
+  - `\(LR_-\)` for negative test
+
+1. **Convert pretest probability to pretest odds**
+  - `\(odds_{pretest} = \frac{prob_{pretest}}{1-prob_{pretest}}\)`
+  
+2. **Multiply odds by relevant likelihood ratio to get post test odds**
+  - `\(odds_{posttest} = odds_{pretest} * LR\)`
+  
+3. **Convert posttest odds back to probability**
+  - `\(prob_{posttest} = \frac{odds_{posttest}}{odds_{posttest}+1}\)`
+
+---
+
+class: middle
+
+# Calculating post-test probability #4
+
+**Here is a full example**
+
+--
+- Prevalence of HIV is ~1 in 300 in the US. So 0.333%
+
+--
+- Sensitivity of Gen-4 HIV test outside of window is 99.7% 
+- Specificity of Gen-4 HIV test outside of window is 99.8%
+
+--
+- Let's say someone tests positive - what is the probability they are really infected?
+
+1. Calculate `\(LR_+\)` for positive test: `\(LR_+ = \frac{0.997}{1-0.998} = 498.5\)`
+
+--
+
+2. Convert pretest probability (prevalence) to pretest odds
+  - `\(odd_{pretest} = \frac{prob_{pretest}}{1-prob_{pretest}} = \frac{0.00333}{1-0.00333} = 0.00334\)`
+  - note pretty much the same as probability, which is always true for low prevalence/probability diseases
+  
+--
+
+3. Multiply pretest odds by LR to get posttest odds
+  - `\(odds_{posttest} = odds_{pretest} * LR_+ = 0.00334 * 498.5 = 1.66499\)`
+  
+--
+
+4. Convert posttest odds to posttest probability
+  - `\(prob_{posttest} = \frac{odds_{posttest}}{odds_{posttest}+1} = \frac{1.66499}{1.66499+1} = 0.6247\)`
+
+--
+
+**So probability of true infection out of window with positive 4th gen test is 63%**
 
 ---
 
