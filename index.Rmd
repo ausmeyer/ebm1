@@ -36,7 +36,7 @@ class: middle
 <br><br>
 5. Brief hypothesis testing (will get more with epi stuff) - 10 minutes
 <br><br>
-6. Probability - 22 minutes
+6. Probability - 27 minutes
 ---
 
 class: middle, center
